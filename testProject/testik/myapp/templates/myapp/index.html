@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InTouch Café</title>
+
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'myapp/styles.css' %}">
+
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap&subset=cyrillic" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Введіть дані</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Додати запис</button>
+        </form>
+
+        <h2>Список записів</h2>
+
+        <ul>
+            {% for entry in entries %}
+                <li>
+                    {{ entry.text }}
+
+                    <form action="{% url 'delete_entry' entry.id %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit">Видалити</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
